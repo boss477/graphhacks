@@ -23,6 +23,27 @@ curl -X POST http://localhost:8000/ask -H 'content-type: application/json' \
 
 The response includes a plain-language answer, owner, decision, freshness, conflict status, source documents, the exact Cypher query, and traversed graph path.
 
+## Architecture
+
+The FastAPI service performs deterministic extraction for the synthetic demo, classifies each memory as episodic, semantic, or procedural, fingerprints documents for deduplication, and writes tenant-scoped `Document`, `Memory`, `Person`, `Incident`, and `Decision` nodes to FalkorDB. Relationships include `DESCRIBES`, `OWNS`, and `EVIDENCES`. `/ask` retrieves the newest evidence through a parameterized Cypher traversal and returns provenance plus the visible path. Conflicting owners or decisions are surfaced as a warning instead of being merged into an invented answer. Agent handoffs are stored as procedural conversation memory and shared by both agents in the tenant.
+
+The frontend calls the JSON contract directly, renders trust signals, exposes exact Cypher, shows the graph path, and demonstrates the research-agent to support-agent handoff.
+
+## Two-minute demo script
+
+1. Open the app and point out that the `acme` tenant has two shared agents.
+2. Click **Trace answer**. Explain that TraceBrain traverses FalkorDB instead of guessing from a chat response.
+3. Call out Maya Chen as owner, the connection-pooling decision, the current status, and the source documents.
+4. Show the exact Cypher and visible graph path for explainability.
+5. Click **Hand research to support agent**. Explain that the handoff becomes shared procedural memory.
+6. Ingest a second synthetic document with a different owner or decision, ask again, and show the conflict warning.
+
+## Attribution and disclosure
+
+TraceBrain is an independent implementation inspired by the publicly documented concepts in [Company Brain](https://github.com/supermemoryai/company-brain) and [HippocampAI](https://github.com/rexdivakar/HippocampAI). Their source code is not included as a dependency or vendored into this repository. The application is released under Apache License 2.0; see `LICENSE`.
+
+AI assistance was used to help draft and test portions of this hackathon MVP. The system uses synthetic data only and does not connect to Slack, production systems, or external company data.
+
 ## API
 
 - `POST /ingest` — ingest a synthetic document or conversation
