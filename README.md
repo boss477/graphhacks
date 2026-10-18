@@ -20,9 +20,9 @@
 
 ## Launch video
 
-<video src="https://github.com/boss477/graphhacks/raw/master/assets/tracebrain_launch.mp4" controls muted playsinline width="100%"></video>
+<a href="assets/tracebrain_launch.mp4"><img src="assets/tracebrain_launch_poster.jpg" alt="Watch the TraceBrain launch video" width="100%" /></a>
 
-[Watch the TraceBrain launch video](assets/tracebrain_launch.mp4)
+<p align="center"><strong>▶ Click the preview to watch the 21-second launch video</strong></p>
 
 <hr />
 
