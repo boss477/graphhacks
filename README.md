@@ -31,6 +31,40 @@ The FastAPI service performs deterministic extraction for the synthetic demo, cl
 
 The frontend calls the JSON contract directly, renders trust signals, exposes exact Cypher, shows the graph path, and demonstrates the research-agent to support-agent handoff.
 
+### System flow
+
+```mermaid
+flowchart LR
+    U[User question] --> API[FastAPI API]
+    DOC[Documents and conversations] --> EX[Extraction + memory classification]
+    EX --> G[(FalkorDB graph)]
+    API --> Q[Parameterized Cypher traversal]
+    Q --> G
+    G --> E[Answer + provenance + freshness + graph path]
+    E --> UI[TraceBrain web UI]
+    A1[Research agent] --> H[Shared procedural handoff]
+    H --> G
+    A2[Support agent] --> G
+```
+
+### Company Brain graph
+
+```mermaid
+flowchart TD
+    D[Document] -->|DESCRIBES| I[Incident]
+    P[Person] -->|OWNS| I
+    D -->|EVIDENCES| DEC[Decision]
+    D -->|MENTIONS| T[Team]
+    D -->|MENTIONS| PR[Project]
+    D -->|MENTIONS| S[System]
+    S -->|DEPENDS_ON / IMPACTS| S2[Downstream system]
+    C[Customer] --> TK[Ticket]
+    TK --> D
+    M[Memory: episodic / semantic / procedural] --> D
+```
+
+Every node and relationship is tenant-scoped, and every answer retains a provenance edge back to its source document.
+
 ## Graph data model
 
 TraceBrain stores company knowledge in the `tracebrain` FalkorDB graph. Every node and relationship carries `tenant_id` so queries remain tenant-scoped.
