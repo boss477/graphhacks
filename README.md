@@ -103,7 +103,7 @@ The frontend displays the exact query and the returned graph path. The API tests
 
 ## Submission tracks
 
-TraceBrain enters **Track 02 — Agent Memory and Coordination** and **Track 03 — Company Brain**. FalkorDB is load-bearing: ingestion creates graph entities and relationships, and `/ask` retrieves answers through Cypher traversal rather than using the graph only as a visualization.
+TraceBrain enters **Track 03 — Company Brain**. FalkorDB is load-bearing: ingestion creates graph entities and relationships, and `/ask` retrieves answers through Cypher traversal rather than using the graph only as a visualization. Shared agent memory and handoffs support the Company Brain workflow.
 
 The Track 03 graph-insights endpoint also exposes three graph-algorithm views: native Cypher `shortestPath` for dependency explanations, FalkorDB Graph Algorithms `pageRank` for influential people and systems, and `louvain` community detection for related teams/projects/systems. When the optional algorithm procedures are unavailable in a lightweight local image, the API returns deterministic evidence-backed fallback results and preserves the exact algorithm query for deployment with the Graph Algorithms module.
 

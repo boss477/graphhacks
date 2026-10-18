@@ -4,10 +4,10 @@ Research date: 2026-10-17. This document separates hackathon requirements from t
 
 ## Graph Hacks 2026 submission checklist
 
-TraceBrain is a strong Track 02 + Track 03 fit:
+TraceBrain is submitted to **Track 03 — Company Brain**:
 
-- Track 02: episodic, semantic, and procedural memory; persistent shared state; agent handoffs; tenant isolation.
-- Track 03: documents, conversations, people, incidents, decisions, ownership, source tracing, freshness, and conflict handling.
+- Track 03: documents, conversations, people, incidents, decisions, ownership, source tracing, freshness, conflict handling, and connected company knowledge.
+- Shared episodic, semantic, and procedural memory plus agent handoffs are supporting implementation features for the Company Brain experience.
 - FalkorDB must be load-bearing. The README and demo must show the graph model, Cypher, and a graph-backed answer—not only a graph visualization.
 - Use synthetic/public data only. Explicitly disclose AI assistance.
 - Submit the public repository, setup instructions, architecture, representative Cypher, and a working demo video.
