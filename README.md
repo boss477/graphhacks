@@ -1,3 +1,23 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/boss477/graphhacks/master/frontend/tracebrain-logo.png" alt="TraceBrain logo" width="620" />
+  <h1>TraceBrain · Company Brain</h1>
+  <p><strong>Trustworthy company memory powered by FalkorDB</strong></p>
+  <p>
+    <a href="https://tracebrain.onrender.com"><img src="https://img.shields.io/badge/Live%20Demo-tracebrain.onrender.com-3d8cff?style=flat-square" alt="Live demo" /></a>
+    <a href="https://github.com/boss477/graphhacks/actions"><img src="https://img.shields.io/badge/Track-03%20Company%20Brain-9b7cff?style=flat-square" alt="Track 03" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-62e6a5?style=flat-square" alt="Apache 2.0" /></a>
+  </p>
+</div>
+
+<p align="center">
+  <a href="#demo">README</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#graph-data-model">Graph model</a> ·
+  <a href="https://tracebrain.onrender.com">Live demo</a>
+</p>
+
+<hr />
+
 # TraceBrain
 
 TraceBrain is a small, synthetic company-memory assistant for Graph Hacks 2026. It uses FastAPI and FalkorDB to turn documents and conversations into a tenant-scoped, provenance-aware graph.
