@@ -18,6 +18,14 @@
 
 <hr />
 
+## Launch video
+
+<video src="https://github.com/boss477/graphhacks/raw/master/assets/tracebrain_launch.mp4" controls muted playsinline width="100%"></video>
+
+[Watch the TraceBrain launch video](assets/tracebrain_launch.mp4)
+
+<hr />
+
 # TraceBrain
 
 TraceBrain is a small, synthetic company-memory assistant for Graph Hacks 2026. It uses FastAPI and FalkorDB to turn documents and conversations into a tenant-scoped, provenance-aware graph.
