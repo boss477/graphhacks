@@ -19,6 +19,8 @@ slack_events: set[str] = set()
 SEED = [
     {"id": "incident-update", "title": "Checkout incident update", "source": "incident-2026-10-14.md", "type": "document", "memory_kind": "semantic", "updated_at": "2026-10-14T09:00:00+00:00", "text": "Incident checkout latency is owned by Maya Chen. The team decided to prioritize database connection pooling and revert the risky cache change."},
     {"id": "support-thread", "title": "Support agent handoff", "source": "conversation-support-2026-10-14.txt", "type": "conversation", "memory_kind": "episodic", "updated_at": "2026-10-14T10:00:00+00:00", "text": "Maya confirms the checkout latency incident owner and the database connection pooling decision."},
+    {"id": "company-map", "title": "Company service map", "source": "architecture-2026-10-12.md", "type": "document", "memory_kind": "semantic", "updated_at": "2026-10-12T12:00:00+00:00", "text": "Team Checkout Platform owns project Checkout Revamp. Maya Chen worked on service checkout-api. checkout-api depends on payments-api and impacts order-service."},
+    {"id": "customer-case", "title": "Customer case 1042", "source": "ticket-1042.md", "type": "ticket", "memory_kind": "episodic", "updated_at": "2026-10-13T14:00:00+00:00", "text": "Customer Acme Retail asked for checkout latency investigation last month. Ticket INC-1042 was resolved by Maya Chen."},
 ]
 
 class IngestRequest(BaseModel):

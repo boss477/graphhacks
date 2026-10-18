@@ -54,3 +54,12 @@ def test_slack_rejects_bad_signature(monkeypatch):
     response = client.post('/slack/events', content=b'{}', headers={'X-Slack-Request-Timestamp': str(int(time.time())), 'X-Slack-Signature': 'v0=bad', 'content-type': 'application/json'})
     assert response.status_code == 401
 
+def test_company_brain_questions_have_graph_paths():
+    customer = client.post('/ask', json={'tenant_id':'acme','question':'What did this customer ask for last month, and was it resolved?'}).json()
+    dependency = client.post('/ask', json={'tenant_id':'acme','question':'What breaks if checkout-api goes down?'}).json()
+    expertise = client.post('/ask', json={'tenant_id':'acme','question':'Who on the team has worked on checkout-api before?'}).json()
+    assert 'Customer' in customer['graph_path'][0]
+    assert 'System' in dependency['graph_path'][0]
+    assert 'Person' in expertise['graph_path'][0]
+    assert 'MATCH' in dependency['cypher']
+

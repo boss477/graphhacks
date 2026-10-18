@@ -23,7 +23,7 @@ curl -X POST http://localhost:8000/ask -H 'content-type: application/json' \
   -d '{"tenant_id":"acme","agent_id":"support-agent","question":"Who owns the checkout latency incident, what decision was made, and is the information current?"}'
 ```
 
-The response includes a plain-language answer, owner, decision, freshness, conflict status, source documents, the exact Cypher query, and traversed graph path.
+The response includes a plain-language answer, owner, decision, freshness, conflict status, source documents, the exact Cypher query, and traversed graph path. The seeded Company Brain story also covers teams, projects, tickets, customers, systems, expertise, dependencies, and downstream impact paths.
 
 ## Architecture
 
