@@ -36,6 +36,12 @@ For local development, install `requirements.txt`, start FalkorDB with `docker c
 
 ## Demo
 
+### TraceBrain launch video
+
+Watch the product walkthrough: [tracebrain_launch.mp4](assets/tracebrain_launch.mp4)
+
+The video uses synthetic company data and demonstrates provenance-aware answers, visible graph paths, freshness, conflict warnings, and agent handoffs.
+
 The API seeds synthetic incident documents on startup. Ask the default question or send:
 
 ```bash
