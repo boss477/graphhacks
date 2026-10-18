@@ -31,6 +31,46 @@ The FastAPI service performs deterministic extraction for the synthetic demo, cl
 
 The frontend calls the JSON contract directly, renders trust signals, exposes exact Cypher, shows the graph path, and demonstrates the research-agent to support-agent handoff.
 
+## Graph data model
+
+TraceBrain stores company knowledge in the `tracebrain` FalkorDB graph. Every node and relationship carries `tenant_id` so queries remain tenant-scoped.
+
+| Node | Important properties | Relationships |
+|---|---|---|
+| `Document` | `id`, `title`, `text`, `source`, `updated_at`, `fingerprint` | `DESCRIBES Incident`, `EVIDENCES Decision`, `MENTIONS Team/Project/Ticket/System/Customer` |
+| `Memory` | `key`, `kind`, `content`, `created_at`, `importance` | shared episodic/semantic/procedural memory |
+| `Person` | `name` | `OWNS Incident`, `WORKED_ON System` |
+| `Team` | `name` | owns projects and services through source evidence |
+| `Project` | `name` | connected to teams and documents |
+| `Ticket` | `key`, `status` | linked to customers and source documents |
+| `Incident` | `key`, `name` | owned by people and described by documents |
+| `Decision` | `key`, `text` | evidenced by source documents |
+| `System` | `name` | `DEPENDS_ON` and `IMPACTS` other systems |
+| `Customer` | `name` | linked to tickets and requests |
+
+Representative retrieval query:
+
+```cypher
+MATCH (d:Document {tenant_id:$tenant})-[:DESCRIBES]->(i:Incident {tenant_id:$tenant})
+OPTIONAL MATCH (p:Person {tenant_id:$tenant})-[:OWNS]->(i)
+OPTIONAL MATCH (d)-[:EVIDENCES]->(dec:Decision {tenant_id:$tenant})
+RETURN i.name, p.name, dec.text, d.title, d.updated_at, d.source
+ORDER BY d.updated_at DESC
+```
+
+Representative impact traversal:
+
+```cypher
+MATCH p=(s:System {tenant_id:$tenant})-[:DEPENDS_ON|IMPACTS*1..3]->(downstream:System {tenant_id:$tenant})
+RETURN p
+```
+
+The frontend displays the exact query and the returned graph path. The API tests cover tenant isolation, freshness, provenance, conflict handling, deduplication, handoff persistence, and Slack signature verification.
+
+## Submission tracks
+
+TraceBrain enters **Track 02 — Agent Memory and Coordination** and **Track 03 — Company Brain**. FalkorDB is load-bearing: ingestion creates graph entities and relationships, and `/ask` retrieves answers through Cypher traversal rather than using the graph only as a visualization.
+
 ## Two-minute demo script
 
 1. Open the app and point out that the `acme` tenant has two shared agents.
