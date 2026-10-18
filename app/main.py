@@ -6,11 +6,13 @@ import time
 import uuid
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 import httpx
 from pydantic import BaseModel, Field
 from .graph import GraphStore
 
 app = FastAPI(title="TraceBrain", version="0.1.0")
+app.mount("/frontend", StaticFiles(directory=Path(__file__).parent.parent / "frontend"), name="frontend")
 store = GraphStore()
 handoffs: list[dict] = []
 oauth_states: set[str] = set()
