@@ -10,6 +10,8 @@ docker compose up --build
 
 Open http://localhost:8000. The API is also documented at http://localhost:8000/docs.
 
+FalkorDB data is persisted in the Docker volume `tracebrain_falkordb`. To connect a Slack development workspace, copy `.env.example` to `.env`, create a Slack app with the listed bot scopes, set the three Slack secrets, expose the callback URL if Slack cannot reach localhost, and open `http://localhost:8000/slack/oauth/start`. Slack Events API requests go to `POST /slack/events`; the endpoint verifies the signing secret, rejects replayed requests, handles URL verification, deduplicates `event_id`, and ingests message events.
+
 For local development, install `requirements.txt`, start FalkorDB with `docker compose up falkordb`, then run `uvicorn app.main:app --reload`.
 
 ## Demo
@@ -51,6 +53,9 @@ AI assistance was used to help draft and test portions of this hackathon MVP. Th
 - `POST /handoff` — create a durable agent-to-agent handoff
 - `GET /memory?tenant_id=acme` — inspect shared episodic, semantic, and procedural memory
 - `GET /health` — service and graph health
+- `GET /slack/oauth/start` — begin Slack OAuth v2 installation
+- `GET /slack/oauth/callback` — exchange the OAuth code server-side
+- `POST /slack/events` — verify and ingest Slack Events API deliveries
 
 All request models require `tenant_id`; every graph query includes tenant filtering.
 

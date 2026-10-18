@@ -1,5 +1,9 @@
 from fastapi.testclient import TestClient
 from app.main import app
+import hashlib
+import hmac
+import json
+import time
 
 client = TestClient(app)
 
@@ -34,4 +38,19 @@ def test_memory_classification_and_deduplication():
     assert first['importance'] == 1.0
     assert second['deduplicated'] is True
     assert len(client.get('/memory?tenant_id=dedupe').json()['memories']) == 1
+
+def test_slack_url_verification_and_signature(monkeypatch):
+    secret = 'test-signing-secret'
+    monkeypatch.setenv('SLACK_SIGNING_SECRET', secret)
+    body = json.dumps({'type': 'url_verification', 'challenge': 'challenge-123'}).encode()
+    timestamp = str(int(time.time()))
+    signature = 'v0=' + hmac.new(secret.encode(), f'v0:{timestamp}:'.encode() + body, hashlib.sha256).hexdigest()
+    response = client.post('/slack/events', content=body, headers={'X-Slack-Request-Timestamp': timestamp, 'X-Slack-Signature': signature, 'content-type': 'application/json'})
+    assert response.status_code == 200
+    assert response.json()['challenge'] == 'challenge-123'
+
+def test_slack_rejects_bad_signature(monkeypatch):
+    monkeypatch.setenv('SLACK_SIGNING_SECRET', 'test-signing-secret')
+    response = client.post('/slack/events', content=b'{}', headers={'X-Slack-Request-Timestamp': str(int(time.time())), 'X-Slack-Signature': 'v0=bad', 'content-type': 'application/json'})
+    assert response.status_code == 401
 
