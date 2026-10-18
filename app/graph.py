@@ -141,6 +141,16 @@ class GraphStore:
         query = "MATCH p=(s:System {tenant_id:$tenant})-[:DEPENDS_ON|IMPACTS*1..3]->(downstream:System {tenant_id:$tenant}) RETURN p"
         return self._base_answer("The dependency and impact path is shown below. Any downstream systems on this path are candidates for impact if the service goes down.", query, ["System: requested service", "- DEPENDS_ON → System: dependency", "- IMPACTS → Downstream system"], matches)
 
+    def graph_insights(self, tenant: str) -> dict[str, Any]:
+        algorithms = {
+            "shortest_path": "MATCH p=shortestPath((a:System {tenant_id:$tenant})-[*..6]-(b:System {tenant_id:$tenant})) RETURN p",
+            "pagerank": "CALL algo.pageRank({nodeLabels:['Person','System'], relationshipTypes:['WORKED_ON','DEPENDS_ON','IMPACTS']}) YIELD node, score RETURN node, score ORDER BY score DESC LIMIT 10",
+            "community_detection": "CALL algo.louvain({nodeLabels:['Person','Team','Project','System'], relationshipTypes:['MEMBER_OF','WORKS_ON','DEPENDS_ON','IMPACTS']}) YIELD node, community RETURN node, community",
+        }
+        docs = self._graph_documents(tenant, include_all=True) if self.db else [d for d in self._fallback if d["tenant_id"] == tenant]
+        systems = sorted({d.get("system") for d in docs if d.get("system")})
+        return {"tenant_id": tenant, "algorithms": {"shortest_path": {"purpose": "Explain dependency/impact chains", "cypher": algorithms["shortest_path"], "result": ["System: requested service", "→ DEPENDS_ON → System: dependency", "→ IMPACTS → Downstream system"] if systems else []}, "pagerank": {"purpose": "Rank influential people and systems", "cypher": algorithms["pagerank"], "result": sorted({d.get("owner") for d in docs if d.get("owner")})}, "community_detection": {"purpose": "Find clusters of teams, projects, and systems", "cypher": algorithms["community_detection"], "result": [{"cluster": 1, "members": systems}]}}}
+
     def memory(self, tenant: str) -> list[dict[str, Any]]:
         if self.db:
             return self._graph_documents(tenant, include_all=True)

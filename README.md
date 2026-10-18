@@ -71,6 +71,8 @@ The frontend displays the exact query and the returned graph path. The API tests
 
 TraceBrain enters **Track 02 — Agent Memory and Coordination** and **Track 03 — Company Brain**. FalkorDB is load-bearing: ingestion creates graph entities and relationships, and `/ask` retrieves answers through Cypher traversal rather than using the graph only as a visualization.
 
+The Track 03 graph-insights endpoint also exposes three graph-algorithm views: native Cypher `shortestPath` for dependency explanations, FalkorDB Graph Algorithms `pageRank` for influential people and systems, and `louvain` community detection for related teams/projects/systems. When the optional algorithm procedures are unavailable in a lightweight local image, the API returns deterministic evidence-backed fallback results and preserves the exact algorithm query for deployment with the Graph Algorithms module.
+
 ## Two-minute demo script
 
 1. Open the app and point out that the `acme` tenant has two shared agents.
@@ -96,6 +98,7 @@ AI assistance was used to help draft and test portions of this hackathon MVP. Th
 - `GET /slack/oauth/start` — begin Slack OAuth v2 installation
 - `GET /slack/oauth/callback` — exchange the OAuth code server-side
 - `POST /slack/events` — verify and ingest Slack Events API deliveries
+- `GET /graph/insights?tenant_id=acme` — run/expose shortest-path, PageRank, and Louvain graph insights
 
 All request models require `tenant_id`; every graph query includes tenant filtering.
 

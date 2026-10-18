@@ -144,6 +144,10 @@ def memory(tenant_id: str):
     ]
     return {"tenant_id": tenant_id, "memories": memories, "handoffs": durable_handoffs or [h for h in handoffs if h["tenant_id"] == tenant_id]}
 
+@app.get("/graph/insights")
+def graph_insights(tenant_id: str):
+    return store.graph_insights(tenant_id)
+
 # Keep the demo usable in lightweight test clients that do not run lifespan hooks.
 seed()
 

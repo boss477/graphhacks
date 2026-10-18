@@ -63,3 +63,9 @@ def test_company_brain_questions_have_graph_paths():
     assert 'Person' in expertise['graph_path'][0]
     assert 'MATCH' in dependency['cypher']
 
+def test_graph_algorithms_are_exposed():
+    data = client.get('/graph/insights?tenant_id=acme').json()
+    assert set(data['algorithms']) == {'shortest_path', 'pagerank', 'community_detection'}
+    assert 'shortestPath' in data['algorithms']['shortest_path']['cypher']
+    assert 'pageRank' in data['algorithms']['pagerank']['cypher']
+
