@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TraceBrain, company memory you can verify</title>
+<meta name="description" content="TraceBrain answers questions about your company from a FalkorDB graph and shows the evidence: sources, freshness, conflicts, the graph path and the exact Cypher query.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="container">
+    <a class="wordmark" href="#main">tracebrain</a>
+    <nav aria-label="Page">
+      <ul>
+        <li><a href="#answer">Answer</a></li>
+        <li><a href="#fields">Fields</a></li>
+        <li><a href="#run">Run</a></li>
+        <li><a href="https://github.com/boss477/graphhacks">GitHub</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero">
+  <div class="container">
+    <div class="hero__text">
+      <h1>Company memory you can verify</h1>
+      <p class="lead">Ask about incidents, people and decisions. Every answer shows its evidence.</p>
+      <div class="actions">
+        <a class="btn btn--primary" href="https://tracebrain.onrender.com">Open the live demo</a>
+        <a class="btn" href="#run">Run it with Docker</a>
+      </div>
+    </div>
+    <figure class="session well">
+      <pre tabindex="0" aria-label="A question sent to the TraceBrain API and its answer"><code><span class="p">$</span> curl -X POST localhost:8000/ask -d '{
+    "tenant_id": "acme",
+    "agent_id": "support-agent",
+    "question": "Who owns the checkout latency incident?"
+  }'
+
+<span class="k">owner</span>      Maya Chen
+<span class="k">decision</span>   Prioritize database connection pooling
+           and revert the risky cache change
+<span class="k">status</span>     <mark>current</mark>
+<span class="k">evidence</span>   2026-10-14T10:00:00+00:00
+<span class="k">path</span>       Document -DESCRIBES-> Incident
+           Incident &lt;-OWNS- Person
+           Document -EVIDENCES-> Decision</code></pre>
+      <figcaption># synthetic seed data for tenant acme</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="answer" id="answer">
+  <div class="container">
+    <div class="head">
+      <h2>One answer, inspected</h2>
+      <p class="lead">The live demo, tracing the same question.</p>
+    </div>
+    <figure class="capture">
+      <img src="images/traced-answer.webp" width="1215" height="840" alt="TraceBrain answering who owns the checkout latency incident: owner Maya Chen, the decision, status current, the visible graph path, trust signals and the exact Cypher query" loading="lazy">
+      <figcaption># tracebrain.onrender.com, captured from the live demo</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="fields" id="fields">
+  <div class="container">
+    <h2>What every answer returns</h2>
+    <dl class="ref">
+      <div><dt>answer</dt><dd>A plain-language reply to the question.</dd></div>
+      <div><dt>owner, decision</dt><dd>Who is responsible, and what was decided.</dd></div>
+      <div><dt>freshness</dt><dd>Whether the information is still current.</dd></div>
+      <div><dt>conflicts</dt><dd>A warning when sources disagree.</dd></div>
+      <div><dt>sources</dt><dd>The documents the answer came from.</dd></div>
+      <div><dt>cypher, path</dt><dd>The exact query, and the graph path it walked.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="graph">
+  <div class="container">
+    <div class="graph__text">
+      <h2>Memory is a graph</h2>
+      <p class="lead">Every memory is a node. Every connection is an edge, scoped to one tenant.</p>
+    </div>
+    <pre class="diagram" aria-label="Diagram: a document describes an incident, a person owns the incident, the document evidences a decision"><code>+------------+  DESCRIBES   +------------+
+|  Document  | -----------> |  Incident  |
++------------+              +------------+
+      |                           ^
+      | EVIDENCES                 | OWNS
+      v                           |
++------------+              +------------+
+|  Decision  |              |   Person   |
++------------+              +------------+</code></pre>
+  </div>
+</section>
+
+<section class="run" id="run">
+  <div class="container">
+    <div class="run__text">
+      <h2>Run it on one machine</h2>
+      <p class="lead">FalkorDB and the API start together. The API seeds synthetic incidents.</p>
+      <a class="link" href="https://github.com/boss477/graphhacks#run">Read the setup notes</a>
+    </div>
+    <figure class="well install">
+      <pre tabindex="0" aria-label="Commands to run TraceBrain"><code><span class="p">$</span> git clone https://github.com/boss477/graphhacks.git
+<span class="p">$</span> cd graphhacks
+<span class="p">$</span> docker compose up --build</code></pre>
+      <figcaption># then open localhost:8000, API docs at /docs</figcaption>
+    </figure>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="foot__mark">tracebrain</p>
+    <ul>
+      <li><a href="https://github.com/boss477/graphhacks">Repository</a></li>
+      <li><a href="https://tracebrain.onrender.com">Live demo</a></li>
+      <li><a href="https://github.com/boss477/graphhacks/blob/master/assets/tracebrain_launch.mp4">Launch video</a></li>
+    </ul>
+    <small>Built for Graph Hacks 2026. Apache 2.0 licence. All company data in the demo is synthetic.</small>
+  </div>
+</footer>
+</body>
+</html>

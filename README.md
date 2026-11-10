@@ -4,6 +4,7 @@
   <p><strong>Trustworthy company memory powered by FalkorDB</strong></p>
   <p>
     <a href="https://tracebrain.onrender.com"><img src="https://img.shields.io/badge/Live%20Demo-tracebrain.onrender.com-3d8cff?style=flat-square" alt="Live demo" /></a>
+    <a href="https://boss477.github.io/graphhacks/"><img src="https://img.shields.io/badge/Project%20page-boss477.github.io-62e6a5?style=flat-square" alt="Project page" /></a>
     <a href="https://github.com/boss477/graphhacks/actions"><img src="https://img.shields.io/badge/Track-03%20Company%20Brain-9b7cff?style=flat-square" alt="Track 03" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-62e6a5?style=flat-square" alt="Apache 2.0" /></a>
   </p>
@@ -43,6 +44,10 @@ FalkorDB data is persisted in the Docker volume `tracebrain_falkordb`. To connec
 For local development, install `requirements.txt`, start FalkorDB with `docker compose up falkordb`, then run `uvicorn app.main:app --reload`.
 
 ## Demo
+
+![TraceBrain answering who owns the checkout latency incident, with the graph path, trust signals and the exact Cypher query](docs/images/traced-answer.webp)
+
+<sub>Captured from the live demo at tracebrain.onrender.com. All company data is synthetic.</sub>
 
 ### TraceBrain launch video
 
